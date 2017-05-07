@@ -13,7 +13,10 @@ App({
       success: function (res) {
         if (res.code) {
           wx.request({
-            url: constant.host + '/wechat/api/openid?js_code=' + res.code,
+            url: constant.api + '/wechat/api/openid?js_code=' + res.code,
+            header: {
+              'Project': 'makalong'
+            },
             data: {
 
             },

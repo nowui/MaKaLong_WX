@@ -7,7 +7,7 @@
 
 .index-category-item {
   float: left;
-  width: 33.33%;
+  width: 20%;
   text-align: center;
   padding-top: 10px;
   padding-bottom: 8px;
@@ -51,7 +51,6 @@
 }
 
 .category-right-item {
-  float: left;
   border: #ddd 1rpx solid;
   background: #fff;
   background-repeat: no-repeat;

@@ -2,10 +2,10 @@ const constant = require("../../util/constant.js");
 const notification = require('../../util/notification.js');
 const http = require("../../util/http.js");
 const storage = require("../../util/storage.js");
-const Quantity = require('../../component/quantity/index');
+const util = require("../../util/util.js");
 const htmlToWxml = require('../../util/htmlToWxml.js');
 
-Page(Object.assign({}, Quantity, {
+Page(Object.assign({}, {
     data: {
         product_quantity: {
             quantity: 1,
@@ -21,8 +21,8 @@ Page(Object.assign({}, Quantity, {
         product_id: '',
         product_name: '',
         product_price: 0.00,
-        product_image: [],
-        product_image_list: [],
+        product_image_file: '',
+        product_image_file_list: [],
         product_content: [],
         cart_count: []
     },
@@ -31,21 +31,23 @@ Page(Object.assign({}, Quantity, {
     },
     onLoad: function (option) {
         http.request({
-            url: '/product/find',
+            url: '/product/video/find',
             data: {
-                product_id: option.product_id,
-                // product_id: '9f813c2d34f746f09b75661bb5278616'
+                product_id: option.product_id
             },
             success: function (data) {
-                let product_image_list = JSON.parse(data.product_image_list_original);
+                for(var i = 0; i < data.product_image_file_list.length; i++) {
+                    data.product_image_file_list[i].file_path = util.decrypt(data.product_image_file_list[i].file_path);
+                    data.product_image_file_list[i].file_image = constant.host + data.product_image_file_list[i].file_image;
+                }
 
                 this.setData({
                     sku_id: data.sku_list[0].sku_id,
                     product_id: data.product_id,
                     product_name: data.product_name,
                     product_price: JSON.parse(data.sku_list[0].product_price)[0].product_price.toFixed(2),
-                    product_image: JSON.parse(data.product_image),
-                    product_image_list: product_image_list,
+                    product_image_file: data.product_image_file,
+                    product_image_file_list: data.product_image_file_list,
                     product_content: htmlToWxml.html2json(data.product_content)
                 });
             }.bind(this)
@@ -121,7 +123,7 @@ Page(Object.assign({}, Quantity, {
             sku_id: this.data.sku_id,
             product_id: this.data.product_id,
             product_name: this.data.product_name,
-            product_image: constant.host + this.data.product_image[0],
+            product_image_file: constant.host + this.data.product_image_file,
             product_price: this.data.product_price,
             product_quantity: this.data.product_quantity,
             product_stock: this.data.product_quantity.max
@@ -148,7 +150,7 @@ Page(Object.assign({}, Quantity, {
             sku_id: this.data.sku_id,
             product_id: this.data.product_id,
             product_name: this.data.product_name,
-            product_image: constant.host + this.data.product_image[0],
+            product_image_file: constant.host + this.data.product_image_file,
             product_price: this.data.product_price,
             product_quantity: {
                 quantity: this.data.product_quantity.quantity,

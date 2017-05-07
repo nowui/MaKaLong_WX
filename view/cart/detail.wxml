@@ -7,7 +7,7 @@
         <icon class="checkbox" type="{{product.is_check ? 'success' : 'circle'}}" color="{{product.is_check ? '#c81623' : '#dddddd'}}" />
       </view>
       <view class="weui-media-box__hd weui-media-box__hd_in-appmsg cart-list-image">
-        <image class="weui-media-box__thumb image" src="{{product.product_image}}" />
+        <image class="weui-media-box__thumb image" src="{{product.product_image_file}}" />
       </view>
       <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
         <view class="weui-media-box__title">{{product.product_name}}</view>
@@ -17,6 +17,10 @@
       </view>
       <view class="weui-cell__ft">￥{{product.product_total_price}}</view>
     </view>
+  </view>
+  <view class="no-data" wx:if="{{cart_list.length == 0}}">
+    <image src="/image/empty.svg" class="no-data-image-icon"></image>
+    <view class="no-data-text">当前没有数据</view>
   </view>
   <view style="height: 50px;"></view>
   <view class="footer" wx:if="{{cart_list.length > 0}}">

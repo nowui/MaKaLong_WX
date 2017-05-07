@@ -1,5 +1,6 @@
 const constant = require("../../util/constant.js");
 const http = require("../../util/http.js");
+const util = require("../../util/util.js");
 
 Page({
     data: {
@@ -30,15 +31,20 @@ Page({
         this.setData({
             category_list: category_list
         });
+    },
+    onReady: function () {
 
+    },
+    onShow: function () {
         http.request({
+            is_toast: false,
             url: '/product/hot/list',
             data: {
 
             },
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    data[i].product_image_original = constant.host + JSON.parse(data[i].product_image_original)[0];
+                    data[i].product_image_file = constant.host + data[i].product_image_file;
                     data[i].product_price = data[i].product_price.toFixed(2);
                 }
 
@@ -47,12 +53,6 @@ Page({
                 });
             }.bind(this)
         });
-    },
-    onReady: function () {
-
-    },
-    onShow: function () {
-
     },
     onHide: function () {
 
