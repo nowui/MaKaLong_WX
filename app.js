@@ -1,4 +1,5 @@
 const constant = require("./util/constant.js");
+const wechat = require("./util/wechat.js");
 
 App({
   onLaunch: function () {
@@ -9,33 +10,13 @@ App({
       }.bind(this)
     });
 
-    wx.login({
-      success: function (res) {
-        if (res.code) {
-          wx.request({
-            url: constant.api + '/wechat/api/openid?js_code=' + res.code,
-            header: {
-              'Project': 'makalong'
-            },
-            data: {
-
-            },
-            success: function (res) {
-              this.globalData.open_id = res.data.openid;
-            }.bind(this),
-            fail: function (res) {
-
-            }
-          });
-
-          wx.getUserInfo({
-            success: function (res) {
-              this.globalData.userInfo = res.userInfo;
-              var userInfo = res.userInfo
-            }.bind(this)
-          });
+    wechat.auth({
+        success: function (data) {
+            // getApp().globalData.userInfo = userInfo;
+            // getApp().globalData.open_id = data.openid;
+            //
+            // storage.setToken(data.token);
         }
-      }.bind(this)
     });
   },
   globalData: {

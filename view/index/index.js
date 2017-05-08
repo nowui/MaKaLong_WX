@@ -1,6 +1,5 @@
 const constant = require("../../util/constant.js");
 const http = require("../../util/http.js");
-const util = require("../../util/util.js");
 
 Page({
     data: {

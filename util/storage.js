@@ -6,7 +6,7 @@ const cart_key = ('cart_' + constant.version);
 
 function getToken() {
     var token = wx.getStorageSync(token_key);
-    return 'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE0OTMwMjA5NTAsImV4cCI6MTUyNDU1Njk1MCwiYXV0aG9yaXphdGlvbl9pZCI6IjE3YzdkZjI2MTUyMDQyOWY4ZWM1ODhmYmUzYTJlZmY0IiwidXNlcl9pZCI6IjRhMzgwYmNiYTRlMTRjNDViODFmOTg4MmI2M2RjMjlhIn0.XmoZ11WByhYW16ighnlDjIc580tviJzna5oYdayca6xKaaG92Pw7F0_sa2LyxuI7X9__x3gIbZKE0p4sTRa90g';
+    return token;
 }
 
 function setToken(token) {
@@ -42,7 +42,6 @@ function getCart() {
 }
 
 function setCart(cart) {
-    console.log(cart);
     wx.setStorageSync(cart_key, JSON.stringify(cart));
 }
 
@@ -55,8 +54,6 @@ function addCart(product) {
 
         if (cart.product_id == product.product_id) {
             isNotExit = false;
-
-            console.log(product);
 
             cart.sku_id = product.sku_id;
             cart.product_name = product.product_name;

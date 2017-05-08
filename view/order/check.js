@@ -13,6 +13,7 @@ Page(Object.assign({}, Quantity, {
             delivery_address: ''
         },
         product_list: [],
+        product_total: 0,
         freight: 0,
         total: 0
     },
@@ -39,7 +40,8 @@ Page(Object.assign({}, Quantity, {
                 var is_play = true;
                 var is_delivery = false;
                 var product_list = storage.getProduct();
-                var freight = 0;
+                var product_total = 0;
+                var freight = data.freight;
                 var total = 0;
 
                 if (data.delivery_name == '') {
@@ -70,13 +72,14 @@ Page(Object.assign({}, Quantity, {
                 for (var i = 0; i < product_list.length; i++) {
                     var product = product_list[i];
 
-                    var product_total_price = product.product_quantity.quantity * product.product_price;
+                    product_total += product.product_quantity.quantity * product.product_price;
 
                     product.product_total_price = product_total_price.toFixed(2);
-                    total += product_total_price;
                 }
 
-                if (!total > 0) {
+                total = product_total + freight;
+
+                if (!product_total > 0) {
                     is_play = false;
                 }
 
@@ -85,6 +88,7 @@ Page(Object.assign({}, Quantity, {
                     is_delivery: is_delivery,
                     delivery: delivery,
                     product_list: product_list,
+                    product_total: product_total.toFixed(2),
                     freight: new Number(freight).toFixed(2),
                     total: total.toFixed(2)
                 });

@@ -17,11 +17,11 @@ Page({
             userInfo: getApp().globalData.userInfo
         });
 
-        wx.openSetting({
-            success: (res) => {
-                console.log(res);
-            }
-        });
+        // wx.openSetting({
+        //     success: (res) => {
+        //         console.log(res);
+        //     }
+        // });
     },
     onReady: function () {
 

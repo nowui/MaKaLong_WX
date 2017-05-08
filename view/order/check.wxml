@@ -24,7 +24,7 @@
   <view class="weui-cells weui-cells_after-title margin-top">
     <view url="/view/order/index" class="weui-cell weui-cell_access">
       <view class="weui-cell__bd">商品金额</view>
-      <view class="weui-cell__ft weui-cell__ft_in-access order-info">￥399.00</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access order-info">￥{{product_total}}</view>
     </view>
     <view url="/view/order/index" class="weui-cell weui-cell_access">
       <view class="weui-cell__bd">运费</view>
