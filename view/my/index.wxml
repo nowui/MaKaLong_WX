@@ -4,11 +4,11 @@
     <view class="weui-panel__bd">
       <view class="weui-media-box weui-media-box_appmsg">
         <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" src="{{userInfo.avatarUrl}}" />
+          <image class="weui-media-box__thumb" src="{{member.user_avatar}}" />
         </view>
         <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
           <view class="weui-media-box__title">
-            <view>{{userInfo.nickName}}</view>
+            <view>{{member.user_name}}</view>
           </view>
         </view>
       </view>

@@ -1,9 +1,11 @@
 const constant = require("../../util/constant.js");
 const http = require("../../util/http.js");
+const storage = require("../../util/storage.js");
 
 Page({
     data: {
         color: constant.color,
+        member: {},
         member_total_amount: parseFloat(0).toFixed(2),
         WAIT_PAY: 0,
         WAIT_SEND: 0,
@@ -13,15 +15,9 @@ Page({
 
     },
     onLoad: function () {
-        this.setData({
-            userInfo: getApp().globalData.userInfo
-        });
-
-        // wx.openSetting({
-        //     success: (res) => {
-        //         console.log(res);
-        //     }
-        // });
+      this.setData({
+        member: storage.getMember()
+      });
     },
     onReady: function () {
 

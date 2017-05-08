@@ -1,88 +1,120 @@
 const constant = require("./constant.js");
 
+const opoen_id_key = ('opoen_id_' + constant.version);
 const token_key = ('token_' + constant.version);
 const product_key = ('product_' + constant.version);
 const cart_key = ('cart_' + constant.version);
+const member_key = ('member_' + constant.version);
+
+function getOpenId() {
+  return wx.getStorageSync(opoen_id_key);
+}
+
+function setOpenId(opoen_id) {
+  wx.setStorageSync(opoen_id_key, opoen_id);
+}
 
 function getToken() {
-    var token = wx.getStorageSync(token_key);
-    return token;
+  return wx.getStorageSync(token_key);
 }
 
 function setToken(token) {
-    wx.setStorageSync(token_key, token);
+  wx.setStorageSync(token_key, token);
 }
 
 function getProduct() {
-    var product = wx.getStorageSync(product_key);
+  var product = wx.getStorageSync(product_key);
 
-    if (product == "") {
-        return [];
-    }
+  if (product == "") {
+    return [];
+  }
 
-    return JSON.parse(product);
+  return JSON.parse(product);
 }
 
 function setProduct(product) {
-    wx.setStorageSync(product_key, JSON.stringify(product));
+  wx.setStorageSync(product_key, JSON.stringify(product));
 }
 
 function removeProduct() {
-    wx.removeStorageSync(product_key);
+  wx.removeStorageSync(product_key);
 }
 
 function getCart() {
-    var cart = wx.getStorageSync(cart_key);
+  var cart = wx.getStorageSync(cart_key);
 
-    if (cart == '') {
-        return [];
-    }
+  if (cart == '') {
+    return [];
+  }
 
-    return JSON.parse(cart);
+  return JSON.parse(cart);
 }
 
 function setCart(cart) {
-    wx.setStorageSync(cart_key, JSON.stringify(cart));
+  wx.setStorageSync(cart_key, JSON.stringify(cart));
 }
 
 function addCart(product) {
-    var cartList = getCart();
-    var isNotExit = true;
+  var cartList = getCart();
+  var isNotExit = true;
 
-    for (var i = 0; i < cartList.length; i++) {
-        var cart = cartList[i];
+  for (var i = 0; i < cartList.length; i++) {
+    var cart = cartList[i];
 
-        if (cart.product_id == product.product_id) {
-            isNotExit = false;
+    if (cart.product_id == product.product_id) {
+      isNotExit = false;
 
-            cart.sku_id = product.sku_id;
-            cart.product_name = product.product_name;
-            cart.product_image = product.product_image;
-            cart.product_price = product.product_price;
-            cart.product_quantity.quantity = product.product_quantity.quantity + cart.product_quantity.quantity;
-            cart.product_stock = product.product_stock;
-        }
+      cart.sku_id = product.sku_id;
+      cart.product_name = product.product_name;
+      cart.product_image = product.product_image;
+      cart.product_price = product.product_price;
+      cart.product_quantity.quantity = product.product_quantity.quantity + cart.product_quantity.quantity;
+      cart.product_stock = product.product_stock;
     }
+  }
 
-    if (isNotExit) {
-        cartList.push(product);
-    }
+  if (isNotExit) {
+    cartList.push(product);
+  }
 
-    wx.setStorageSync(cart_key, JSON.stringify(cartList));
+  wx.setStorageSync(cart_key, JSON.stringify(cartList));
 }
 
 function removeCart() {
-    wx.removeStorageSync(cart_key);
+  wx.removeStorageSync(cart_key);
+}
+
+function getMember() {
+  var member = wx.getStorageSync(member_key);
+
+  if (member == "") {
+    return {
+      user_name: '',
+      user_avatar: '',
+      member_level_id: '',
+      member_level_value: 999
+    };
+  }
+
+  return JSON.parse(member);
+}
+
+function setMember(member) {
+  wx.setStorageSync(member_key, JSON.stringify(member));
 }
 
 module.exports = {
-    getToken: getToken,
-    setToken: setToken,
-    getProduct: getProduct,
-    setProduct: setProduct,
-    removeProduct: removeProduct,
-    getCart: getCart,
-    setCart: setCart,
-    addCart: addCart,
-    removeCart: removeCart
+  getOpenId: getOpenId,
+  setOpenId: setOpenId,
+  getToken: getToken,
+  setToken: setToken,
+  getProduct: getProduct,
+  setProduct: setProduct,
+  removeProduct: removeProduct,
+  getCart: getCart,
+  setCart: setCart,
+  addCart: addCart,
+  removeCart: removeCart,
+  getMember: getMember,
+  setMember: setMember
 };
