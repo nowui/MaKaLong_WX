@@ -27,6 +27,9 @@ Page({
                 var order_list = [];
 
                 for (var i = 0; i < data.length; i++) {
+                  for (var j = 0; j < data[i].product_list.length; j++) {
+                    data[i].product_list[j].product_image_file = constant.host + data[i].product_list[j].product_image_file;
+                  }
                     if (data[i].order_flow == option.order_flow || option.order_flow == 'ALL') {
                         order_list.push(data[i]);
                     }

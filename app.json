@@ -1,5 +1,6 @@
 {
   "pages": [
+    "view/home/index",
     "view/index/index",
     "view/cart/index",
     "view/cart/detail",
@@ -18,7 +19,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTitleText": "微信商城",
+    "navigationBarTitleText": "马卡龙小魔女",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#f5f4fa"
   },

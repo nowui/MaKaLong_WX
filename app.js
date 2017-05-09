@@ -1,5 +1,4 @@
 const constant = require("./util/constant.js");
-const wechat = require("./util/wechat.js");
 
 App({
   onLaunch: function () {
@@ -10,14 +9,7 @@ App({
       }.bind(this)
     });
 
-    wechat.auth({
-        success: function (data) {
-            // getApp().globalData.userInfo = userInfo;
-            // getApp().globalData.open_id = data.openid;
-            //
-            // storage.setToken(data.token);
-        }
-    });
+    
   },
   globalData: {
     userInfo: {},

@@ -1,7 +1,7 @@
 <view class="container">
   <view class="header"></view>
   <view class="weui-tab">
-    <view class="weui-navbar">
+    <view class="weui-navbar" style="background-color: #ffffff;">
       <block wx:for="{{order_status_list}}" wx:for-item="order_status" wx:key="{{order_status.order_status_value}}">
         <view id="{{order_status.order_status_value}}" class="weui-navbar__item {{order_flow == order_status.order_status_value ? 'weui-bar__item_on' : ''}}" bindtap="handleTab">
           <view class="weui-navbar__title">{{order_status.order_status_name}}</view>
@@ -9,20 +9,35 @@
       </block>
       <view class="weui-navbar__slider" style="width: {{slider_width}}px; left: {{slider_left}}px; transform: translateX({{slider_offset}}px); -webkit-transform: translateX({{slider_offset}}px);"></view>
     </view>
-    <view class="weui-tab__panel" style="overflow: visible;">
-      <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" wx:for="{{order_list}}" wx:for-item="order" wx:key="{{order.order_id}}">
-        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg" style="">
-          <view>单号：{{order.order_number}}</view>
-          <view>姓名：{{order.order_delivery_name}}</view>
-          <view>地址：{{order.order_delivery_address}}</view>
-          <view class="weui-media-box__desc"></view>
+    <view class="weui-tab__panel" style="overflow: visible; background-color: #f5f4fa;">
+      <view class="weui-panel weui-panel_access" wx:for="{{order_list}}" wx:for-item="order" wx:key="{{order.order_id}}">
+        <view class="weui-cells weui-cells_after-title" hover-class="weui-cell_active">
+            <view class="weui-cell" style="font-size: 14px;">
+                <view class="weui-cell__bd">{{order.order_number}}</view>
+                <view class="weui-cell__ft" wx:if="{{order.order_flow == 'WAIT_PAY'}}">待付款</view>
+            </view>
         </view>
-        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-      </view>
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" wx:for="{{order.product_list}}" wx:for-item="product" wx:key="{{product.product_id}}">
+                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg" style="margin-top: 23px;">
+                        <image class="weui-media-box__thumb" src="{{product.product_image_file}}" style="height: 34px" />
+                    </view>
+                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                        <view class="weui-media-box__title" style="margin-left: 2px;">{{product.product_name}}</view>
+                        <view class="weui-media-box__desc">￥{{product.product_price}} X {{product.product_quantity}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="weui-panel__ft">
+                <view class="weui-cell weui-cell_link">
+                    <view class="weui-cell__bd">共{{order.product_list.length}}件商品，合计：￥{{order.order_amount}}</view>
+                </view>
+            </view>
+        </view>
     </view>
   </view>
-      <view class="no-data" wx:if="{{is_load && order_list.length == 0}}">
-        <image src="/image/empty.svg" class="no-data-image-icon"></image>
-        <view class="no-data-text">当前没有数据</view>
-      </view>
+  <view class="no-data" wx:if="{{is_load && order_list.length == 0}}">
+    <image src="/image/empty.svg" class="no-data-image-icon"></image>
+    <view class="no-data-text">当前没有数据</view>
+  </view>
 </view>

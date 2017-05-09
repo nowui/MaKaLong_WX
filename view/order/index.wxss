@@ -1,3 +1,20 @@
 .container {
-    background-color: #ffffff;
+  
+}
+
+.weui-media-box {
+  padding: 0px 15px 0px 15px;
+}
+
+.weui-panel:first-child {
+  margin-top: 10px;
+}
+
+.weui-cell_link {
+  color: #000;
+}
+
+.weui-media-box__title {
+  font-weight: normal;
+  font-size: 14px;
 }

@@ -3,47 +3,72 @@ const http = require("./http.js");
 const storage = require("./storage.js");
 
 function auth(config) {
+  if (typeof (config.is_open_setting) == 'undefined') {
+    config.is_open_setting = true;
+  }
+
   var token = storage.getToken();
-    if (token == '') {
-        wx.login({
-            success: function (res) {
-                var code = res.code;
-                if (code) {
-                    wx.getUserInfo({
-                      success: function (res) {
-                        console.log(res.encryptedData);
-                        console.log(res.iv);
-                            http.request({
-                              url: '/member/wechat/wx/login',
-                                data: {
-                                  js_code: code,
-                                  encrypted_data: res.encryptedData,
-                                  iv: res.iv
-                                },
-                                success: function (data) {
-                                  storage.setToken(data.token);
-                                  storage.setOpenId(data.opoen_id);
-                                  storage.setMember({
-                                    user_name: data.user_name,
-                                    user_avatar: data.user_avatar,
-                                    member_level_id: data.member_level_id,
-                                    member_level_value: data.member_level_value
-                                  });
-                                }.bind(this)
-                            });
-                        }.bind(this)
-                    });
-
-                }
-            }.bind(this)
-        });
+  if (token == '') {
+    if (config.is_open_setting) {
+      wx.openSetting({
+        success: (res) => {
+          if (res.authSetting['scope.userInfo']) {
+            login(config);
+          }
+        }
+      });
     } else {
-        //config.success();
+      login(config);
     }
+  } else {
+    config.success();
+  }
+}
 
+function login(config) {
+  wx.login({
+    success: function (res) {
+      var code = res.code;
+      if (code) {
+        wx.getUserInfo({
+          success: function (res) {
+            http.request({
+              url: '/member/wechat/wx/login',
+              data: {
+                js_code: code,
+                encrypted_data: res.encryptedData,
+                iv: res.iv
+              },
+              success: function (data) {
+                storage.setToken(data.token);
+                storage.setOpenId(data.open_id);
+                storage.setMember({
+                  user_name: data.user_name,
+                  user_avatar: data.user_avatar,
+                  member_level_id: data.member_level_id,
+                  member_level_value: data.member_level_value
+                });
 
+                config.success();
+              }.bind(this),
+              fail: function () {
+                config.fail();
+              }
+            });
+          }.bind(this),
+          fail: function (res) {
+            config.fail();
+          }
+        });
+
+      }
+    }.bind(this),
+    fail: function () {
+      config.fail();
+    }
+  });
 }
 
 module.exports = {
-    auth: auth
+  auth: auth
 };
