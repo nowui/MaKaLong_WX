@@ -17,6 +17,9 @@
   </view>
     <navigator url="/view/product/index?product_id={{product.product_id}}" class="category-right-item" style="width: {{window_width - 14}}px; margin: 7px 0 0 7px;" wx:for="{{product_list}}" wx:for-item="product" wx:key="{{product.product_id}}">
       <image style="width: {{window_width - 14}}px; height: {{(window_width - 14) / 100 * 56}}px;" src="{{product.product_image_file}}" />
+      <view class="category-right-item-icon" style="background: {{category.category_color}};">
+        <image class="category-right-item-icon-image" style="background-image: url(http://api.makalong.nowui.com/upload/6a4dbae2ac824d2fb170638d55139666/b1c76ae2a76946ff8ea15a7161bb2c24.jpg);" />
+      </view>
       <view class="category-right-item-name">{{product.product_name}}</view>
       <view class="category-right-item-price">￥{{product.product_price}}</view>
     </navigator>
