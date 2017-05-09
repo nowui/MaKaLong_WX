@@ -6,6 +6,20 @@ const product_key = ('product_' + constant.version);
 const cart_key = ('cart_' + constant.version);
 const member_key = ('member_' + constant.version);
 
+function getIsLanuch() {
+  var is_lanuch = wx.getStorageSync('is_lanuch');
+
+  if (is_lanuch == "") {
+    return false;
+  }
+
+  return is_lanuch;
+}
+
+function setIsLanuch() {
+  wx.setStorageSync('is_lanuch', true);
+}
+
 function getOpenId() {
   return wx.getStorageSync(opoen_id_key);
 }
@@ -104,6 +118,8 @@ function setMember(member) {
 }
 
 module.exports = {
+  getIsLanuch: getIsLanuch,
+  setIsLanuch: setIsLanuch,
   getOpenId: getOpenId,
   setOpenId: setOpenId,
   getToken: getToken,

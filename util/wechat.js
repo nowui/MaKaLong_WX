@@ -3,21 +3,20 @@ const http = require("./http.js");
 const storage = require("./storage.js");
 
 function auth(config) {
-  if (typeof (config.is_open_setting) == 'undefined') {
-    config.is_open_setting = true;
-  }
-
   var token = storage.getToken();
   if (token == '') {
-    if (config.is_open_setting) {
+    if (storage.getIsLanuch()) {
       wx.openSetting({
         success: (res) => {
+          console.log(res.authSetting['scope.userInfo']);
           if (res.authSetting['scope.userInfo']) {
             login(config);
           }
         }
       });
     } else {
+      storage.setIsLanuch();
+      
       login(config);
     }
   } else {
