@@ -1,6 +1,16 @@
 <view class="container">
   <view class="header"></view>
-  <view class="no-data">
+  <navigator url="/view/product/index?product_id={{product.product_id}}" class="index-product-item" style="width: {{window_width - 14}}px; margin: 7px 0 0 7px;" wx:for="{{product_list}}" wx:for-item="product" wx:key="{{product.product_id}}">
+    <image style="width: {{window_width - 14}}px; height: {{(window_width - 14) / 100 * 56}}px;" src="{{product.product_image_file}}" />
+    <view class="index-product-item-view">
+      <view class="index-product-item-view-icon" style="background: {{category.category_color}};">
+        <image class="index-product-item-view-icon-image" style="background-image: url(http://api.makalong.nowui.com/upload/6a4dbae2ac824d2fb170638d55139666/thumbnail/b1c76ae2a76946ff8ea15a7161bb2c24.jpg);" />
+      </view>
+      <view class="index-product-item-view-name">{{product.product_name}}</view>
+      <view class="index-product-item-view-price">￥{{product.product_price}}</view>
+    </view>
+  </navigator>
+  <view class="no-data" wx:if="{{is_load && product_list.length == 0}}">
     <image src="/image/empty.svg" class="no-data-image-icon"></image>
     <view class="no-data-text">当前没有数据</view>
   </view>

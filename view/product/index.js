@@ -6,7 +6,7 @@ const wechat = require("../../util/wechat.js");
 const util = require("../../util/util.js");
 const htmlToWxml = require('../../util/htmlToWxml.js');
 
-Page(Object.assign({}, {
+Page({
   data: {
     product_quantity: {
       quantity: 1,
@@ -32,10 +32,33 @@ Page(Object.assign({}, {
 
   },
   onLoad: function (option) {
+    this.setData({
+      product_id: option.product_id
+    });
+  },
+  onReady: function () {
+
+  },
+  onShow: function () {
+    this.handleLoad();
+  },
+  onHide: function () {
+
+  },
+  onPullDownRefresh: function () {
+
+  },
+  onReachBottom: function () {
+
+  },
+  onShareAppMessage: function () {
+
+  },
+  handleLoad: function () {
     http.request({
       url: '/product/video/find',
       data: {
-        product_id: option.product_id
+        product_id: this.data.product_id
       },
       success: function (data) {
         for (var i = 0; i < data.product_image_file_list.length; i++) {
@@ -44,6 +67,7 @@ Page(Object.assign({}, {
         }
 
         this.setData({
+          product_is_pay: data.product_is_pay,
           sku_id: data.sku_list[0].sku_id,
           product_id: data.product_id,
           product_name: data.product_name,
@@ -60,26 +84,6 @@ Page(Object.assign({}, {
       slider_offset: this.data.window_width / 2 * this.data.tab_index,
       slider_width: this.data.window_width / 2
     });
-  },
-  onReady: function () {
-
-  },
-  onShow: function () {
-    this.setData({
-      cart_count: storage.getCart().length
-    });
-  },
-  onHide: function () {
-
-  },
-  onPullDownRefresh: function () {
-
-  },
-  onReachBottom: function () {
-
-  },
-  onShareAppMessage: function () {
-
   },
   handleTab: function (event) {
     this.setData({
@@ -201,8 +205,8 @@ Page(Object.assign({}, {
               paySign: data.paySign,
               appId: constant.app_id,
               success: function (response) {
-                wx.redirectTo({
-                  url: '/view/order/result'
+                wx.navigateTo({
+                  url: '/view/order/result?order_id=' + order_id
                 });
               },
               fail: function (response) {
@@ -219,4 +223,4 @@ Page(Object.assign({}, {
       }
     });
   }
-}));
+});

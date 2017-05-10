@@ -1,95 +1,106 @@
+const notification = require('../../util/notification.js');
 const constant = require("../../util/constant.js");
 const http = require("../../util/http.js");
 
 Page({
-    data: {
-        order_status_list: constant.order_status_list,
-        window_width: getApp().globalData.window_width,
-        slider_offset: 0,
-        slider_left: 0,
-        slider_width: 0,
-        is_load: false,
-        list: [],
-        order_flow: '',
-        order_list: []
-    },
-    onUnload: function () {
+  data: {
+    order_status_list: constant.order_status_list,
+    window_width: getApp().globalData.window_width,
+    slider_offset: 0,
+    slider_left: 0,
+    slider_width: 0,
+    is_load: false,
+    list: [],
+    order_flow: '',
+    order_list: []
+  },
+  onUnload: function () {
+    notification.remove(constant.notification_order_result_pay, this);
+  },
+  onLoad: function (option) {
+    notification.on(constant.notification_order_result_pay, this, function (data) {
+      this.handleLoad();
+    });
 
-    },
-    onLoad: function (option) {
-        http.request({
-            url: '/order/list',
-            data: {
-                page_index: 0,
-                page_size: 0
-            },
-            success: function (data) {
-                var order_list = [];
+    this.setData({
+      order_flow: option.order_flow
+    });
 
-                for (var i = 0; i < data.length; i++) {
-                  for (var j = 0; j < data[i].product_list.length; j++) {
-                    data[i].product_list[j].product_image_file = constant.host + data[i].product_list[j].product_image_file;
-                  }
-                    if (data[i].order_flow == option.order_flow || option.order_flow == 'ALL') {
-                        order_list.push(data[i]);
-                    }
-                }
+    this.handleLoad();
+  },
+  onReady: function () {
 
-                var index = 0;
-                for (var i = 0; i < this.data.order_status_list.length; i++) {
-                    if (option.order_flow == this.data.order_status_list[i].order_status_value) {
-                        index = i;
+  },
+  onShow: function () {
 
-                        break;
-                    }
-                }
+  },
+  onHide: function () {
 
-                var slider_width = this.data.window_width / this.data.order_status_list.length;
+  },
+  onPullDownRefresh: function () {
 
-                this.setData({
-                    slider_left: 0,
-                    slider_offset: slider_width * index,
-                    slider_width: slider_width,
-                    is_load: true,
-                    list: data,
-                    order_flow: option.order_flow,
-                    order_list: order_list
-                });
-            }.bind(this)
-        });
-    },
-    onReady: function () {
+  },
+  onReachBottom: function () {
 
-    },
-    onShow: function () {
+  },
+  onShareAppMessage: function () {
 
-    },
-    onHide: function () {
-
-    },
-    onPullDownRefresh: function () {
-
-    },
-    onReachBottom: function () {
-
-    },
-    onShareAppMessage: function () {
-
-    },
-    handleTab: function (event) {
-        var order_flow = event.currentTarget.id;
+  },
+  handleLoad: function () {
+    http.request({
+      url: '/order/list',
+      data: {
+        page_index: 0,
+        page_size: 0
+      },
+      success: function (data) {
         var order_list = [];
 
-        for (var i = 0; i < this.data.list.length; i++) {
-            if (this.data.list[i].order_flow == order_flow || order_flow == 'ALL') {
-                order_list.push(this.data.list[i]);
-            }
+        for (var i = 0; i < data.length; i++) {
+          for (var j = 0; j < data[i].product_list.length; j++) {
+            data[i].product_list[j].product_image_file = constant.host + data[i].product_list[j].product_image_file;
+          }
+          if (data[i].order_flow == this.data.order_flow || this.data.order_flow == 'ALL') {
+            order_list.push(data[i]);
+          }
         }
 
+        var index = 0;
+        for (var i = 0; i < this.data.order_status_list.length; i++) {
+          if (this.data.order_flow == this.data.order_status_list[i].order_status_value) {
+            index = i;
+
+            break;
+          }
+        }
+
+        var slider_width = this.data.window_width / this.data.order_status_list.length;
+
         this.setData({
-            slider_offset: event.currentTarget.offsetLeft,
-            order_flow: order_flow,
-            order_list: order_list
+          slider_left: 0,
+          slider_offset: slider_width * index,
+          slider_width: slider_width,
+          is_load: true,
+          list: data,
+          order_list: order_list
         });
+      }.bind(this)
+    });
+  },
+  handleTab: function (event) {
+    var order_flow = event.currentTarget.id;
+    var order_list = [];
+
+    for (var i = 0; i < this.data.list.length; i++) {
+      if (this.data.list[i].order_flow == order_flow || order_flow == 'ALL') {
+        order_list.push(this.data.list[i]);
+      }
     }
+
+    this.setData({
+      slider_offset: event.currentTarget.offsetLeft,
+      order_flow: order_flow,
+      order_list: order_list
+    });
+  }
 });

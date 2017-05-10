@@ -44,6 +44,13 @@
   color: #c81623;
 }
 
+.index-product-item-view-is-pay {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+  color: #666666;
+}
+
 .product-detail {
   background-color: #fff;
 }

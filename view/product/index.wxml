@@ -5,8 +5,8 @@
       <image class="index-product-item-view-icon-image" style="background-image: url(http://api.makalong.nowui.com/upload/6a4dbae2ac824d2fb170638d55139666/thumbnail/b1c76ae2a76946ff8ea15a7161bb2c24.jpg);" />
     </view>
     <view class="index-product-item-view-name">{{product_name}}</view>
-    <view class="index-product-item-view-time">{{system_create_time}}</view>
     <view class="index-product-item-view-price">￥{{product_price}}</view>
+    <view class="index-product-item-view-is-pay" wx:if="{{product_is_pay}}">已购买</view>
   </view>
   <view class="margin-top" wx:for="{{product_image_file_list}}" wx:for-item="video" wx:key="{{index}}">
     <video style="width: {{window_width}}px; height: {{window_width / 100 * 56}}px;" src="{{video.file_path}}" poster="{{video.file_image}}" controls wx:if="{{product_is_pay}}"></video>

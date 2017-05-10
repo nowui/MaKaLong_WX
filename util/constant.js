@@ -47,7 +47,9 @@ const constant = {
     order_status_value: 'WAIT_SEND',
     order_status_name: '已完成',
     order_status_image: '/image/send.svg'
-  }]
+  }],
+  notification_delivery_index_load: 'notification_delivery_index_load',
+  notification_order_result_pay: 'notification_order_result_pay'
 }
 
 module.exports = constant;

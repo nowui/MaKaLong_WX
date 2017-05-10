@@ -1,0 +1,37 @@
+<view class="container">
+  <view class="header"></view>
+  <view class="weui-panel weui-panel_access">
+    <view url="/view/order/index" class="weui-cell weui-cell_access">
+      <view class="weui-cell__bd">您的订单：{{order.order_flow_text}}</view>
+    </view>
+  </view>
+  <view class="weui-panel weui-panel_access">
+    <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" wx:for="{{order.product_list}}" wx:for-item="product" wx:key="{{product.product_id}}">
+      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg" style="margin-top: 23px;">
+        <image class="weui-media-box__thumb" src="{{product.product_image_file}}" style="height: 34px" />
+      </view>
+      <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+        <view class="weui-media-box__title" style="margin-left: 2px;">{{product.product_name}}</view>
+        <view class="weui-media-box__desc">￥{{product.product_price}} X {{product.product_quantity}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="weui-cells weui-cells_after-title margin-top">
+    <view url="/view/order/index" class="weui-cell weui-cell_access">
+      <view class="weui-cell__bd">商品金额</view>
+      <view class="weui-cell__ft order-info">￥{{order.order_product_amount}}</view>
+    </view>
+  </view>
+  <view class="footer" wx:if="{{order.order_flow == 'WAIT_PAY'}}">
+    <view class="footer-total">
+      <view class="footer-total-checkbox" bindtap="handleAll">
+      </view>
+      <view class="footer-total-text">
+        总计: ￥{{order.order_product_amount}}
+      </view>
+    </view>
+    <view class="footer-pay" bindtap="handlePay">
+      立即购买
+    </view>
+  </view>
+</view>

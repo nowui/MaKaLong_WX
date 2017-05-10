@@ -1,25 +1,31 @@
 <view class="container">
   <view class="header"></view>
   <view class="result-icon">
-    <icon type="success" size="80"></icon>
+    <icon type="waiting" size="80" wx:if="{{result == 'confirm'}}"></icon>
+    <icon type="success" size="80" wx:if="{{result == 'success'}}"></icon>
+    <icon type="warn" size="80" wx:if="{{result == 'error'}}"></icon>
   </view>
   <view class="result-title">
-    订单确认成功
+    <text wx:if="{{result == 'confirm'}}">正在等待平台确认</text>
+    <text wx:if="{{result == 'success'}}">订单确认成功</text>
+    <text wx:if="{{result == 'error'}}">网络异常，请与工作人员确认</text>
   </view>
-  <view class="result-content">
+  <view class="result-content" wx:if="{{result == 'success'}}">
     <view class="weui-flex">
       <view class="weui-flex__item">
         <view class="placeholder">订单号：</view>
         <view class="placeholder">金 额：</view>
       </view>
       <view class="weui-flex__item">
-        <view class="placeholder" style="padding-left: 3px;">E20170427989460</view>
-        <view class="placeholder">￥599.00</view>
+        <view class="placeholder" style="padding-left: 3px;">{{order.order_number}}</view>
+        <view class="placeholder">￥{{order.order_amount}}</view>
       </view>
     </view>
   </view>
-  <view class="result-button">
-    <button class="weui-btn" type="primary" bindtap="handleHome">返回首页</button>
-    <button class="weui-btn" type="default" bindtap="handleOrder">查看订单</button>
+  <view class="result-button" wx:if="{{result == 'success'}}">
+    <button class="weui-btn" type="primary" bindtap="handleBack">确定</button>
+  </view>
+  <view class="result-button" wx:if="{{result == 'error'}}">
+    <button class="weui-btn" type="primary" bindtap="handleBack">确定</button>
   </view>
 </view>
